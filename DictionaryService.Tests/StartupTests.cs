@@ -44,6 +44,22 @@ namespace DictionaryService.Tests
             var responseString = await response.Content.ReadAsStringAsync();
             // Assert
             Assert.Equal("asdfsdfasdf", responseString);
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task PostRequestWithAllParametersAndExistedKey()
+        {
+            // Arrange
+            var response = await _client.PostAsync(new Uri(_baseUri, "/111"), new StringContent("asdfsdfasdf"));
+            response.EnsureSuccessStatusCode();
+            response = await _client.PostAsync(new Uri(_baseUri, "/111"), new StringContent("gfhsghshsgh"));
+            response.EnsureSuccessStatusCode();
+            // Act
+            var responseString = await response.Content.ReadAsStringAsync();
+            // Assert
+            Assert.Equal("gfhsghshsgh", responseString);
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
@@ -145,7 +161,7 @@ namespace DictionaryService.Tests
             // Act
             var responseString = await response.Content.ReadAsStringAsync();
             // Assert
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.Equal(HttpStatusCode.Gone, response.StatusCode);
             Assert.Equal("111", responseString);
         }
 

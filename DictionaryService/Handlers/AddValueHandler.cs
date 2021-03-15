@@ -24,6 +24,14 @@ namespace DictionaryService.Handlers
             _context.Response.ContentType = "text/html; charset=utf-8";
             if (!string.IsNullOrEmpty(postValue))
             {
+                try
+                {
+                    _service.Get(key);
+                }
+                catch
+                {
+                    _context.Response.StatusCode = StatusCodes.Status201Created;
+                }
                 _service.Add(key, postValue);
                 await _context.Response.WriteAsync($"{postValue}");
             }

@@ -17,7 +17,7 @@ namespace DictionaryService.Handlers
             try
             {
                 _service.Delete(key);
-                _context.Response.StatusCode = StatusCodes.Status200OK;
+                _context.Response.StatusCode = StatusCodes.Status410Gone;
                 await _context.Response.WriteAsync($"{key}");
             }
             catch (KeyNotFoundException)
